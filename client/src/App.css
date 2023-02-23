@@ -1,0 +1,23 @@
+body {
+    background-color: #191414;
+}
+
+.marvel-color {
+    color: #ed1d24;
+}
+
+.marvel-color-bg {
+    background-color: #ed1d24;
+}
+
+.hover-zoom-shine  {
+    transform: scale(1, 1);
+    filter: brightness(100%);
+    transition: all 0.1s ease-in-out;
+    cursor: pointer;
+}
+
+.hover-zoom-shine:hover  {
+    transform: scale(1.05, 1.05);
+    filter: brightness(110%);
+}
