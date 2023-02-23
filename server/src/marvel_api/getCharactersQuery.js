@@ -37,6 +37,7 @@ function parseSearchResult(rawSearchResult) {
     const charactersList = rawSearchResult?.data?.results || [];
     charactersList.forEach(character => {
         characters.push({
+            id: character.id,
             name: character.name,
             description: character.description,
             thumbnail: character.thumbnail.path + "." + character.thumbnail.extension
