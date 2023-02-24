@@ -1,5 +1,4 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
 
 /**
  * A React component used to display the footer
@@ -13,7 +12,6 @@ function Footer() {
                 </div>
                 <ul>
                     <a href="http://marvel.com">Marvel Website</a>
-
                 </ul>
             </footer>
         </div>

@@ -1,11 +1,9 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import NoPage from "./pages/NoPage";
 import Browse from "./pages/Browse";
 import Superteam from "./pages/Superteam";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
 import BasicLayout from "./pages/BasicLayout"
 
 function App() {
