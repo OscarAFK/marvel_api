@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
 
 /**
- * A React component used to display an album.
+ * A React component used to display a character.
  * 
  * @param {string} id The id of the character
  * @param {string} name The name of the character
@@ -27,8 +27,8 @@ function Character(props) {
         <div className="col-lg-3 col-md-6 col-12 d-flex align-items-stretch">
             <div className="card mb-4 rounded-3 bg-dark">
                 <img alt={altText} src={thumbnail} className="card-img-top" />
-                <div className="card-img-overlay">
-                    <button className={"fa-2x btn btn-outline-danger rounded-circle text-light" + (inSuperteam ? "active" : "")} onClick={handleClickOnSuperteam}>
+                <div className="card-img-overlay h-25">
+                    <button title="Add to the superteam" className={"fa-2x btn btn-outline-danger rounded-circle text-light" + (inSuperteam ? "active" : "")} onClick={handleClickOnSuperteam}>
                         <FontAwesomeIcon icon={faUserPlus} />
                     </button>
                 </div>
@@ -40,7 +40,7 @@ function Character(props) {
                             <p className="card-text"><em>No description</em></p>
                         )
                     }
-                    <p className="card-text">{description}</p>
+                    <p className="card-text overflow-auto" style={{"maxHeight":"200px"}}>{description}</p>
                 </div>
             </div>
         </div>
