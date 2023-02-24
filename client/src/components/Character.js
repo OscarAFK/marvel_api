@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { faUsers, faCheck } from '@fortawesome/free-solid-svg-icons'
 
 /**
  * A React component used to display a character.
@@ -9,18 +9,18 @@ import { faUserPlus } from '@fortawesome/free-solid-svg-icons'
  * @param {string} description The description of the character
  * @param {string} thumbnail The thumbnail of the character
  * @param {boolean} inSuperteam If the character is in the superteam
- * @param {function} addRemoveCharacterFromSuperteam A callback for when the character should be added/removed to the superteam 
+ * @param {function} addRemoveFromSuperteam A callback for when the character should be added/removed to the superteam 
  */
 function Character(props) {
     const { id, name, description, thumbnail, inSuperteam } = props;
-    const { addRemoveCharacterFromSuperteam } = props;
+    const { addRemoveFromSuperteam } = props;
     const altText = "Thumbnail of " + name;
 
     /**
      * A function to propagate a click on the "library" button
      */
     const handleClickOnSuperteam = () => {
-        addRemoveCharacterFromSuperteam({ id, name, description, thumbnail, inSuperteam });
+        addRemoveFromSuperteam({ id, name, description, thumbnail, inSuperteam });
     }
 
     return (
@@ -28,8 +28,10 @@ function Character(props) {
             <div className="card mb-4 rounded-3 bg-dark">
                 <img alt={altText} src={thumbnail} className="card-img-top" />
                 <div className="card-img-overlay h-25">
-                    <button title="Add to the superteam" className={"fa-2x btn btn-outline-danger rounded-circle text-light" + (inSuperteam ? "active" : "")} onClick={handleClickOnSuperteam}>
-                        <FontAwesomeIcon icon={faUserPlus} />
+                    <button title="Add to the superteam" style={{ "width": "50px", "height": "50px" }} className={" btn btn-outline-danger rounded-circle text-light"} onClick={handleClickOnSuperteam}>
+                        {
+                            <FontAwesomeIcon icon={inSuperteam ? faCheck : faUsers} />
+                        }
                     </button>
                 </div>
                 <div className="card-body d-flex flex-column">
@@ -40,12 +42,11 @@ function Character(props) {
                             <p className="card-text"><em>No description</em></p>
                         )
                     }
-                    <p className="card-text overflow-auto" style={{"maxHeight":"200px"}}>{description}</p>
+                    <p className="card-text overflow-auto" style={{ "maxHeight": "200px" }}>{description}</p>
                 </div>
             </div>
         </div>
     );
-
 }
 
 export default Character;

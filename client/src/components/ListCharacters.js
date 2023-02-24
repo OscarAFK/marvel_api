@@ -16,17 +16,24 @@ function ListCharacters({ characters, addRemoveCharacterFromSuperteam }) {
     }
 
     if (characters.length > 0) {
-        return <div className="row">
-            {characters.map((character) =>
-                <Character key={character.id}
-                    id={character.id}
-                    name={character.name}
-                    thumbnail={character.thumbnail}
-                    description={character.description}
-                    inSuperteam={character.inSuperteam}
-                    addRemoveFromLibrary={handleClickOnSuperteam} />)}
-        </div>
+        return (
+            <div className="row py-5">
+                {characters.map((character) =>
+                    <Character key={character.id}
+                        id={character.id}
+                        name={character.name}
+                        thumbnail={character.thumbnail}
+                        description={character.description}
+                        inSuperteam={character.inSuperteam}
+                        addRemoveFromSuperteam={handleClickOnSuperteam} />)}
+            </div>
+        );
     }
+    return (
+        <div className="display-5 text-light py-5">
+            <em>No characters</em>
+        </div>
+    );
 }
 
 export default ListCharacters;

@@ -129,8 +129,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-#application library data
-data/library.json
+#application superteam data
+data/superteam.json
 
 #application credentials data
 data/credentials.json
