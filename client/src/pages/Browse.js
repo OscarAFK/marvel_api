@@ -1,41 +1,46 @@
 import React, { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
 import ListCharacters from "../components/ListCharacters";
+import LoadMoreCharacters from "../components/LoadMoreCharacters";
 import { fetchCharacters } from "../api/searchCharacter";
 
 /**
  * A react component to display the browse page.
  */
 function Browse() {
-    const navigate = useNavigate();
-    const [params] = useSearchParams();
-    const [characterListParameters, characterListParametersListParameters] = useState({
-        characters: [],
-        fetchFinished: false
-    })
-    const [page, setPage] = useState(params.get('page') || "");
-
+    const [characters, setCharacters] = useState([]);
+    const [fetchStarted, setFetchStarted] = useState(true);
+    const [page, setPage] = useState(0);
+    
     useEffect(() => {
-        const queryPage = params.get('page');
-        if (!queryPage) {
-            return;
-        }
-        fetchCharacters(queryPage).then((res) => {
+        const abortController = new AbortController();
+        fetchCharacters(page, abortController).then((res) => {
             if (res.error) {
                 return;
             }
-            characterListParametersListParameters(res);
+            setCharacters(prevCharacters => [...prevCharacters, ...res.characters]);
+            setFetchStarted(res.fetchStarted);
         }).catch((error) => {
             console.error(error);
         });
-    }, [navigate, params]);
+
+        return () => {
+            abortController.abort();
+        };
+    }, [page]);
 
     const handleClickOnCharacter = (character) => {
+        
+    }
+
+    const handleClickOnLoadMoreCharacter = (event) => {
+        setPage(page + 1);
+        setFetchStarted(true);
     }
 
     return (
         <div className="container text-light">
-            <ListCharacters characters={characterListParameters.characters} addRemoveCharacterFromSuperteam={handleClickOnCharacter} />
+            <ListCharacters characters={characters} addRemoveCharacterFromSuperteam={handleClickOnCharacter} />
+            <LoadMoreCharacters onLoadMoreCharacters={handleClickOnLoadMoreCharacter} shouldBeLoading={fetchStarted} />
         </div>
     )
 }
