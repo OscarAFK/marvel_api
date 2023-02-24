@@ -9,7 +9,7 @@ const CHARACTER_PER_PAGE = 20;
  * @returns {Promise<object>} A promise for the https request
  */
 function requestCharacters(page) {
-    const url = "https://gateway.marvel.com:443/v1/public/characters?orderBy=name&limit=20&offset=" + encodeURI(page * CHARACTER_PER_PAGE) + "&" + encodeURI(getURLParameters());
+    const url = "https://gateway.marvel.com:443/v1/public/characters?orderBy=-modified&limit=20&offset=" + encodeURI(page * CHARACTER_PER_PAGE) + "&" + encodeURI(getURLParameters());
     return new Promise((resolve, reject) => {
         const req = https.get(url, function (response) {
             let body = "";
@@ -43,7 +43,6 @@ function parseSearchResult(rawSearchResult) {
             thumbnail: character.thumbnail.path + "." + character.thumbnail.extension
         })
     });
-    console.log(characters.length);
     return characters;
 }
 
