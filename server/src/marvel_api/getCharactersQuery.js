@@ -16,8 +16,8 @@ function requestCharacters(page) {
             response.on('data', (d) => body += d);
             response.on('end', () => {
                 let bodyJSON = JSON.parse(body);
-                if (bodyJSON.error) {
-                    return reject(bodyJSON.error);
+                if (bodyJSON.code >= 400) {
+                    return reject(bodyJSON);
                 }
                 return resolve(bodyJSON);
             });

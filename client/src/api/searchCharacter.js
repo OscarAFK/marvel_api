@@ -9,11 +9,11 @@ export function fetchCharacters(page, abortController) {
         .then((data) => {
             if (data.error) {
                 console.error(data);
-                return { characters: [], fetchStarted: false };
+                return { error: data.error, characters: [], fetchStarted: false };
             }
             return { characters: data, fetchStarted: false };
         }).catch((error) => {
-            return { error: error };
+            return { error: error.toString() };
         });
 }
 

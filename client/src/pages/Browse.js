@@ -10,17 +10,22 @@ function Browse() {
     const [characters, setCharacters] = useState([]);
     const [fetchStarted, setFetchStarted] = useState(true);
     const [page, setPage] = useState(0);
+    const [error, setError] = useState("");
 
     useEffect(() => {
         const abortController = new AbortController();
         fetchCharacters(page, abortController).then((res) => {
             if (res.error) {
+                //In dev mode, will also catch an "AbortError", and display it as a message every time the page is loaded.
+                //This is caused by the useEffect function being called twice in dev mode.
+                setError(res.error);
                 return;
             }
+            setError("");
             setCharacters(prevCharacters => [...prevCharacters, ...res.characters]);
             setFetchStarted(res.fetchStarted);
         }).catch((error) => {
-            console.error(error);
+            setError(error);
         });
 
         return () => {
@@ -46,6 +51,13 @@ function Browse() {
 
     return (
         <div className="container text-light">
+            {
+                error !== "" && (
+                    <div className="text-danger text-center">
+                        {error}
+                    </div>
+                )
+            }
             <ListCharacters characters={characters} addRemoveCharacterFromSuperteam={handleClickOnSuperteam} />
             <LoadMoreCharacters onLoadMoreCharacters={handleClickOnLoadMoreCharacter} shouldBeLoading={fetchStarted} />
         </div>

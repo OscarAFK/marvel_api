@@ -10,18 +10,12 @@ const JSON_CREDENTIALS_LOCATION = "./data/credentials.json";
 function getCredentials() {
     try {
         let credentials = JSON.parse(readFileSync(JSON_CREDENTIALS_LOCATION));
-        if (credentials.privateKey === "" || credentials.publicKey === "") {
+        if (!areCredentialsValid(credentials)) {
             throw error();
         }
         return credentials;
     } catch (error) {
-        console.log("Could not retrieve your Spotify credentials from ./data/credentials.json, please fill them in.")
-        const credentials = {
-            publicKey: "",
-            privateKey: ""
-        }
-        writeFileSync(JSON_CREDENTIALS_LOCATION, JSON.stringify(credentials), { flag: 'w' });
-        return credentials;
+        return resetCredentials();
     }
 }
 
@@ -35,7 +29,54 @@ function getURLParameters() {
     return "ts=" + timeStamp + "&apikey=" + credentials.publicKey + "&hash=" + createHash('md5').update(keyToHash).digest('hex');
 }
 
+/**
+ * A function checking if the credentials given has parameters are valid
+ * @param {object} credentials The credentials to test
+ * @returns {boolean} if the credentials are valid
+ */
+function areCredentialsValid(credentials) {
+    if (credentials.publicKey === "" || credentials.privateKey === "") {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Reset the credentials
+ * @returns {object} the new empty credentials
+ */
+function resetCredentials() {
+    const credentials = {
+        publicKey: "",
+        privateKey: ""
+    }
+    writeFileSync(JSON_CREDENTIALS_LOCATION, JSON.stringify(credentials), { flag: 'w' });
+    return credentials;
+}
+
+/**
+ * Try to setup credentials from a POST request
+ * @param {object} req - The request of a POST operation
+ * @returns {boolean} if the credentials have been successfully set
+ */
+function trySetupCredentials(req) {
+    let credentials = getCredentials();
+    if (areCredentialsValid(credentials)) {
+        return true;
+    }
+    credentials.publicKey = req.body.publicKey;
+    credentials.privateKey = req.body.privateKey;
+    if (areCredentialsValid(credentials)) {
+        writeFileSync(JSON_CREDENTIALS_LOCATION, JSON.stringify(credentials), { flag: 'w' });
+        return true;
+    }
+    return false;
+}
+
 module.exports = {
     getCredentials,
-    getURLParameters
+    getURLParameters,
+    areCredentialsValid,
+    resetCredentials,
+    trySetupCredentials,
 }
