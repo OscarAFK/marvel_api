@@ -17,16 +17,6 @@ With your favorite command prompt, go to the server folder, and run
 npm install
 ```
 
-In the data folder, create a new file name "credentials.json", and put this inside:
-```
-{
-    "publicKey": "yourPublicKey",
-    "privateKey": "yourPrivateKey"
-}
-```
-
-Replace the keys with the ones you got from the Marvel website.
-
 Then, run:
 ```
 npm start
