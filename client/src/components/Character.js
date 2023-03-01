@@ -25,10 +25,12 @@ function Character(props) {
 
     return (
         <div className="col-lg-3 col-md-6 col-12 d-flex align-items-stretch">
-            <div className="card mb-4 rounded-3 bg-dark">
-                <img alt={altText} src={thumbnail} className="card-img-top" />
+            <div className="card mb-4 rounded-3 bg-dark card-over-effect">
+                <div className="overflow-hidden ">
+                    <img alt={altText} src={thumbnail} className="card-img-top" />
+                </div>
                 <div className="card-img-overlay h-25">
-                    <button title="Add to the superteam" style={{ "width": "50px", "height": "50px" }} className={" btn btn-outline-danger rounded-circle text-light"} onClick={handleClickOnSuperteam}>
+                    <button title="Add to the superteam" style={{ "width": "50px", "height": "50px" }} className={"btn btn-outline-danger rounded-circle text-light wiggle-click"} onClick={handleClickOnSuperteam}>
                         {
                             <FontAwesomeIcon icon={inSuperteam ? faCheck : faUsers} />
                         }

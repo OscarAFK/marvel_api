@@ -10,14 +10,42 @@ body {
     background-color: #ed1d24;
 }
 
-.hover-zoom-shine  {
+.hover-zoom-shine {
     transform: scale(1, 1);
     filter: brightness(100%);
     transition: all 0.1s ease-in-out;
     cursor: pointer;
 }
 
-.hover-zoom-shine:hover  {
+.hover-zoom-shine:hover {
     transform: scale(1.05, 1.05);
     filter: brightness(110%);
+}
+
+.wiggle-click {
+    transform: rotate(0deg);
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+
+.wiggle-click:active {
+    transform: rotate(-30deg);
+}
+
+.card-over-effect {
+    transform: scale(1, 1);
+    transition: all 0.2s ease-in-out;
+}
+
+.card-over-effect:hover {
+    transform: scale(1.05, 1.05);
+}
+
+.card-over-effect > div > .card-img-top{
+    transform: scale(1, 1);
+    transition: all 0.4s ease-in-out;
+}
+
+.card-over-effect:hover > div > .card-img-top {
+    transform: scale(1.05, 1.05);
 }
