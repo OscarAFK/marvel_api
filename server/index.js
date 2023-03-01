@@ -12,34 +12,34 @@ app.get("/characters", (req, res) => {
     const page = req?.query?.page;
     if (!page) {
         console.error("No page given");
-        res.json({ error: "no_page" });
+        res.status(400).json({ error: "no_page" });
         return;
     }
     requestCharacters(page).then((characters) => {
         if (characters.message) {
-            res.json({ error: characters.code + ": " + characters.message });
+            res.status(400).json({ error: characters.code + ": " + characters.message });
             return;
         }
         const formattedCharacters = updateCharactersWithSuperteamData(parseSearchResult(characters));
-        res.json(formattedCharacters);
+        res.status(200).json(formattedCharacters);
     }).catch((error) => {
         console.log(error);
         console.error("An error occured during the process of getting the characters");
-        res.json(error);
+        res.status(500).json(error);
     });
 });
 
 app.get("/superteam", (req, res) => {
-    res.json(getSuperteam());
+    res.status(200).json(getSuperteam());
 });
 
 app.get("/login", (req, res) => {
     const credentials = getCredentials();
     if (!areCredentialsValid(credentials)) {
-        res.json({ todo: "askCredentials" });
+        res.status(200).json({ todo: "askCredentials" });
         return;
     }
-    res.json({ todo: "nothing" });
+    res.status(200).json({ todo: "nothing" });
 });
 
 app.post("/login", (req, res) => {
