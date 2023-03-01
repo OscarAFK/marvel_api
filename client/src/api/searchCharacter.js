@@ -1,3 +1,11 @@
+async function checkAndReturnError(res) {
+    if (res.status >= 400) {
+        const decodedError = await res.json() || res.status;
+        return decodedError;
+    }
+    return res.json();
+}
+
 /**
  * Fetch characters on the Marvel API from the backend api
  * @param {number} page - The page of characters to fetch
@@ -5,11 +13,10 @@
  */
 export function fetchCharacters(page, abortController) {
     return fetch("http://localhost:8000/characters?page=" + encodeURIComponent(page), { signal: abortController.signal })
-        .then((res) => res.json())
+        .then((res) => checkAndReturnError(res))
         .then((data) => {
             if (data.error) {
-                console.error(data);
-                return { error: data.error, characters: [], fetchStarted: false };
+                return data;
             }
             return { characters: data, fetchStarted: false };
         }).catch((error) => {
@@ -23,11 +30,8 @@ export function fetchCharacters(page, abortController) {
  */
 export function fetchSuperteamCharacters() {
     return fetch("http://localhost:8000/superteam")
-        .then((res) => res.json())
+        .then((res) => checkAndReturnError(res))
         .then((data) => {
-            if (data.error) {
-                return { error: data.error };
-            }
             return data;
         }).catch((error) => {
             return { error: error };
@@ -41,11 +45,8 @@ export function fetchSuperteamCharacters() {
  */
 export function addRemoveCharacterFromSuperteam(character) {
     return fetch("http://localhost:8000/superteam/addOrRemoveCharacter", { method: 'POST', headers: { "Content-type": "application/json" }, body: JSON.stringify(character) })
-        .then((res) => res.json())
+        .then((res) => checkAndReturnError(res))
         .then((data) => {
-            if (data.error) {
-                return { error: data.error };
-            }
             return data;
         }).catch((error) => {
             return { error: error };
