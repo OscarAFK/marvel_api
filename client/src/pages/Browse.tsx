@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import ListCharacters from "../components/ListCharacters";
 import LoadMoreCharacters from "../components/LoadMoreCharacters";
 import { fetchCharacters, addRemoveCharacterFromSuperteam } from "../api/searchCharacter";
+import { Character } from "../types/Character";
+import { OperationOnCharacter } from "../types/OperationOnCharacter";
 
 /**
  * A react component to display the browse page.
  */
 function Browse() {
-    const [characters, setCharacters] = useState([]);
+    const [characters, setCharacters] = useState<Character[]>([]);
     const [fetchStarted, setFetchStarted] = useState(true);
     const [page, setPage] = useState(0);
     const [error, setError] = useState("");
@@ -33,7 +35,7 @@ function Browse() {
         };
     }, [page]);
 
-    const handleClickOnSuperteam = (character) => {
+    const handleClickOnSuperteam: OperationOnCharacter = (character: Character) => {
         addRemoveCharacterFromSuperteam(character).then((res) => {
             let newCharactersList = structuredClone(characters);    //structuredClone is necessary to get a new reference, so that the components can understand that they should rebuild. 
             const indexCharacter = newCharactersList.findIndex((c) => { return c.id === character.id });
@@ -44,7 +46,7 @@ function Browse() {
         })
     }
 
-    const handleClickOnLoadMoreCharacter = (event) => {
+    const handleClickOnLoadMoreCharacter = (event: FormEvent) => {
         setPage(page + 1);
         setFetchStarted(true);
     }

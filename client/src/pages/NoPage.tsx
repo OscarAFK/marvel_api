@@ -1,3 +1,5 @@
+import React from "react";
+
 /**
  * A react component to display the not found page.
  */

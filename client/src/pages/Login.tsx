@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faTrash } from '@fortawesome/free-solid-svg-icons'
 import CredentialsForm from "../components/CredentialsForm";
+import { OperationOnCredentials } from "../types/OperationOnCredentials";
 
 
 /**
@@ -10,19 +11,19 @@ import CredentialsForm from "../components/CredentialsForm";
 const Login = () => {
     const [shouldAskCredentials, setShouldAskCredentials] = useState(true);
 
-    const handleResponse = (data) => {
+    const handleResponse = (data: { todo: string }) => {
         setShouldAskCredentials(data.todo === "askCredentials");
     }
 
     useEffect(() => {
-        fetch("http://localhost:8000/login", { mode: 'cors', mathod: "GET" })
+        fetch("http://localhost:8000/login", { mode: 'cors', method: "GET" })
             .then((res) => { return res.json(); })
             .then((data) => {
                 handleResponse(data);
             });
     }, [shouldAskCredentials]);
 
-    const sendCredentials = (publicKey, privateKey) => {
+    const sendCredentials: OperationOnCredentials = (publicKey: string, privateKey: string) => {
         fetch("http://localhost:8000/login", {
             method: "POST",
             mode: 'cors',

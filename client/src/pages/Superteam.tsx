@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchSuperteamCharacters, addRemoveCharacterFromSuperteam } from "../api/searchCharacter";
 import ListCharacters from "../components/ListCharacters";
+import { Character } from "../types/Character";
 
 /**
  * A react component to display the superteam page.
@@ -16,7 +17,7 @@ const Superteam = () => {
     });
   }, []);
 
-  const handleClickOnSuperteam = (character) => {
+  const handleClickOnSuperteam = (character: Character) => {
     addRemoveCharacterFromSuperteam(character).then((res) => {
       setCharacters(res.characters);
     }).catch((error) => {

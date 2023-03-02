@@ -1,14 +1,15 @@
-const express = require("express");
+import express, { Request, Response } from "express";
 const cors = require("cors");
 const app = express();
-const { requestCharacters, parseSearchResult } = require("./src/marvel_api/getCharactersQuery");
-const { resetCredentials, trySetupCredentials, getCredentials, areCredentialsValid } = require("./src/marvel_api/authentificationFlow");
-const { addOrRemoveCharacter, updateCharactersWithSuperteamData, getSuperteam } = require("./src/superteamManager");
+import { requestCharacters, parseSearchResult } from "./src/marvel_api/getCharactersQuery";
+import { resetCredentials, trySetupCredentials, getCredentials, areCredentialsValid } from "./src/marvel_api/authentificationFlow";
+import { addOrRemoveCharacter, updateCharactersWithSuperteamData, getSuperteam } from "./src/superteamManager";
+import { RequestCharactersQuery } from "./src/types/RequestCharactersQuery";
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/characters", (req, res) => {
+app.get("/characters", (req: Request<any, any, any, RequestCharactersQuery>, res: Response) => {
     const page = req?.query?.page;
     if (!page) {
         console.error("No page given");
@@ -16,10 +17,6 @@ app.get("/characters", (req, res) => {
         return;
     }
     requestCharacters(page).then((characters) => {
-        if (characters.message) {
-            res.status(400).json({ error: characters.code + ": " + characters.message });
-            return;
-        }
         const formattedCharacters = updateCharactersWithSuperteamData(parseSearchResult(characters));
         res.status(200).json(formattedCharacters);
     }).catch((error) => {
@@ -29,11 +26,11 @@ app.get("/characters", (req, res) => {
     });
 });
 
-app.get("/superteam", (req, res) => {
+app.get("/superteam", (req: Request, res: Response) => {
     res.status(200).json(getSuperteam());
 });
 
-app.get("/login", (req, res) => {
+app.get("/login", (req: Request, res: Response) => {
     const credentials = getCredentials();
     if (!areCredentialsValid(credentials)) {
         res.status(200).json({ todo: "askCredentials" });
@@ -42,7 +39,7 @@ app.get("/login", (req, res) => {
     res.status(200).json({ todo: "nothing" });
 });
 
-app.post("/login", (req, res) => {
+app.post("/login", (req: Request, res: Response) => {
     if (!trySetupCredentials(req)) {
         res.status(400).json({});
         return;
@@ -50,12 +47,12 @@ app.post("/login", (req, res) => {
     res.status(200).json({});
 });
 
-app.delete("/login", (req, res) => {
+app.delete("/login", (req: Request, res: Response) => {
     resetCredentials();
     res.status(200).json({});
 });
 
-app.post("/superteam/addOrRemoveCharacter", (req, res) => {
+app.post("/superteam/addOrRemoveCharacter", (req: Request, res: Response) => {
     const character = req.body;
     addOrRemoveCharacter(character);
     res.status(200).json({ status: 200, characters: getSuperteam() });

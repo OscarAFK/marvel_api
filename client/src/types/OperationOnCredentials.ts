@@ -1,0 +1,1 @@
+export declare type OperationOnCredentials = (publicKey: string, privateKey: string) => void

@@ -1,17 +1,18 @@
 const { createHash } = require('crypto');
-const { writeFileSync, readFileSync } = require('fs');
+import { writeFileSync, readFileSync } from 'fs';
+import { Credentials } from '../types/Credentials';
+import { Request } from 'express';
 
 const JSON_CREDENTIALS_LOCATION = "./data/credentials.json";
-
 /**
  * Read the "./data/credentials.json" file to get the user specified credential. If it does not found the file, create it. 
- * @returns {object} The credentials in an object.
+ * @returns The credentials in an object.
  */
-function getCredentials() {
+export function getCredentials() {
     try {
-        let credentials = JSON.parse(readFileSync(JSON_CREDENTIALS_LOCATION));
+        let credentials = JSON.parse(readFileSync(JSON_CREDENTIALS_LOCATION, 'utf-8'));
         if (!areCredentialsValid(credentials)) {
-            throw error();
+            throw Error();
         }
         return credentials;
     } catch (error) {
@@ -19,7 +20,7 @@ function getCredentials() {
     }
 }
 
-function getURLParameters() {
+export function getURLParameters() {
     const credentials = getCredentials();
     if (credentials.error) {
         return "";
@@ -31,10 +32,10 @@ function getURLParameters() {
 
 /**
  * A function checking if the credentials given has parameters are valid
- * @param {object} credentials The credentials to test
- * @returns {boolean} if the credentials are valid
+ * @param credentials The credentials to test
+ * @returns if the credentials are valid
  */
-function areCredentialsValid(credentials) {
+export function areCredentialsValid(credentials: Credentials) {
     if (credentials.publicKey === "" || credentials.privateKey === "") {
         return false;
     }
@@ -43,10 +44,10 @@ function areCredentialsValid(credentials) {
 
 /**
  * Reset the credentials
- * @returns {object} the new empty credentials
+ * @returns the new empty credentials
  */
-function resetCredentials() {
-    const credentials = {
+export function resetCredentials() {
+    const credentials: Credentials = {
         publicKey: "",
         privateKey: ""
     }
@@ -56,10 +57,10 @@ function resetCredentials() {
 
 /**
  * Try to setup credentials from a POST request
- * @param {object} req - The request of a POST operation
- * @returns {boolean} if the credentials have been successfully set
+ * @param req - The request of a POST operation
+ * @returns if the credentials have been successfully set
  */
-function trySetupCredentials(req) {
+export function trySetupCredentials(req: Request) {
     let credentials = getCredentials();
     if (areCredentialsValid(credentials)) {
         return true;
@@ -71,12 +72,4 @@ function trySetupCredentials(req) {
         return true;
     }
     return false;
-}
-
-module.exports = {
-    getCredentials,
-    getURLParameters,
-    areCredentialsValid,
-    resetCredentials,
-    trySetupCredentials,
 }

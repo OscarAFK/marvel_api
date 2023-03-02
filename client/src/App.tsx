@@ -6,12 +6,13 @@ import Browse from "./pages/Browse";
 import Superteam from "./pages/Superteam";
 import BasicLayout from "./pages/BasicLayout"
 import Login from "./pages/Login"
+import React from "react";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<BasicLayout />}>
+        <Route path="/" element={<BasicLayout/>}>
           <Route index element={<Home />} />
           <Route path="browse" element={<Browse />} />
           <Route path="login" element={<Login />} />
@@ -19,7 +20,7 @@ function App() {
           <Route path="*" element={<NoPage />} />
         </Route>
       </Routes>
-    </BrowserRouter >
+    </BrowserRouter>
   );
 }
 

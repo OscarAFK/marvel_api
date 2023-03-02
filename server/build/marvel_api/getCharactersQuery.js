@@ -1,10 +1,9 @@
+"use strict";
 const { getURLParameters } = require("./authentificationFlow");
 const https = require("https");
-
 const CHARACTER_PER_PAGE = 20;
-
 /**
- * Request all the characters from the Marvel api 
+ * Request all the characters from the Marvel api
  * @param {number} page - The page where the heroes is
  * @returns {Promise<object>} A promise for the https request
  */
@@ -25,28 +24,28 @@ function requestCharacters(page) {
         req.on('error', (e) => reject(e));
         req.end();
     });
-};
-
+}
+;
 /**
  * Parse the result to keep only a list of heroes with relevent infos
- * @param {object} rawSearchResult - The raw result returned by the {@link requestCharacters} function 
+ * @param {object} rawSearchResult - The raw result returned by the {@link requestCharacters} function
  * @returns {Array.<string>} The list of characters
  */
 function parseSearchResult(rawSearchResult) {
+    var _a;
     let characters = [];
-    const charactersList = rawSearchResult?.data?.results || [];
+    const charactersList = ((_a = rawSearchResult === null || rawSearchResult === void 0 ? void 0 : rawSearchResult.data) === null || _a === void 0 ? void 0 : _a.results) || [];
     charactersList.forEach(character => {
         characters.push({
             id: character.id,
             name: character.name,
             description: character.description,
             thumbnail: character.thumbnail.path + "." + character.thumbnail.extension
-        })
+        });
     });
     return characters;
 }
-
 module.exports = {
     requestCharacters,
     parseSearchResult
-}
+};

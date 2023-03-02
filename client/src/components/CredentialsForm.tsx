@@ -1,17 +1,18 @@
-import { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
+import { OperationOnCredentials } from '../types/OperationOnCredentials';
 
 /**
  * A React component used to display a form asking for the credentials
  * 
- * @param {function} onSubmit - A callback for when the form is submitted, of this form: function(publicKey, privateKey)
+ * @param onSubmit - A callback for when the form is submitted, of this form: function(publicKey, privateKey)
  */
-function CredentialsForm({ onSubmit }) {
+function CredentialsForm(props: { onSubmit: OperationOnCredentials }) {
     const [publicKey, setPublicKey] = useState('');
     const [privateKey, setprivateKey] = useState('');
 
-    const handleOnSubmit = (event) => {
+    const handleOnSubmit = (event: FormEvent) => {
         event.preventDefault();
-        onSubmit(publicKey, privateKey);
+        props.onSubmit(publicKey, privateKey);
     }
 
     return <form className="row text-light text-start" onSubmit={handleOnSubmit}>
