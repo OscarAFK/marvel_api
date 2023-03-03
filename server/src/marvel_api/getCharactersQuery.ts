@@ -48,8 +48,3 @@ export function parseSearchResult(rawSearchResult: { code: number, data?: { resu
     });
     return characters;
 }
-
-module.exports = {
-    requestCharacters,
-    parseSearchResult
-}
