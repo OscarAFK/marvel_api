@@ -9,7 +9,7 @@ const Home = () => {
       Marvel Characters
     </div>
     <div className="display-5 text-light">
-      Start browsing the characters by clicking on "Browse" in the toolbar.
+      Fill-in your credentials in the "Login" page in the toolbar, then start browsing the characters on the "Browse" page.
     </div>
   </div>;
 };

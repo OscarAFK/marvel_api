@@ -8,27 +8,16 @@ I made this application to train myself on Node.js and React, using the Marvel A
 
 ## How to setup
 
-First, you need to have a Marvel account. Then you need to go to [your account](https://developer.marvel.com/account), and get your public and private keys.
+First, you need to have a Marvel account. Then you need to go to [your account](https://developer.marvel.com/account), and get your public and private keys. You will need to fill them in on the login page of the application to make it work.
 
-## Running the server
+## Running the app
 
-With your favorite command prompt, go to the server folder, and run
+To run the app, launch the following command in your favorite terminal:
 ```
-npm install
-```
-
-Then, run:
-```
-npm start
+docker compose up
 ```
 
-## Running the client
-
-In an other command prompt, go to the client folder, and run
+You can now view it in your internet browser at the following address:
 ```
-npm install
-```
-Then, run:
-```
-npm start
+localhost:3000
 ```
